@@ -16,27 +16,21 @@ class AdminController extends Controller
     }
 
     // Tambahkan fungsi ini di dalam AdminController.php
-public function laporan(Request $request)
-{
-    $kategoris = \App\Models\Kategori::all();
-    
-    // Mulai query dengan relasi agar efisien
-    $query = \App\Models\Aspirasi::with('inputAspirasi.kategori');
+// Pastikan ditaruh di dalam class AdminController
+    public function laporan(Request $request)
+    {
+        // Mengambil semua data dengan relasi yang sudah kita perbaiki tadi
+        $query = \App\Models\Aspirasi::with(['inputAspirasi.kategori']);
 
-    // Filter berdasarkan kategori jika dipilih
-    if ($request->id_kategori) {
-        $query->where('id_kategori', $request->id_kategori);
+        // Fitur Plus UKK: Filter berdasarkan status (Opsional tapi bikin nilai A)
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
+        $aspirasis = $query->orderBy('created_at', 'desc')->get();
+        
+        return view('admin.laporan', compact('aspirasis'));
     }
-
-    // Filter berdasarkan tanggal jika diisi
-    if ($request->tgl_awal && $request->tgl_akhir) {
-        $query->whereBetween('created_at', [$request->tgl_awal, $request->tgl_akhir]);
-    }
-
-    $laporan = $query->orderBy('created_at', 'desc')->get();
-
-    return view('admin.laporan', compact('laporan', 'kategoris'));
-}
 
 // Tambahkan fungsi-fungsi ini di dalam AdminController.php
 
@@ -46,7 +40,7 @@ public function siswa()
 {
     // Mengambil semua data siswa urut berdasarkan NIS terkecil
     $siswas = \App\Models\Siswa::orderBy('nis', 'asc')->get();
-    return view('admin.siswa', compact('siswas'));
+ return view('admin.data_siswa', compact('siswas'));
 }
 
 public function storeSiswa(Request $request)
