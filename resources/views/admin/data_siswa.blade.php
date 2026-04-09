@@ -11,7 +11,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4 shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="/admin/dashboard"><i class="bi bi-shield-lock-fill me-2"></i>Admin Panel</a>
+            <a class="navbar-brand fw-bold" href="/admin/dashboard"><i class="bi bi-shield-lock-fill me-2"></i>Admin Panel - Pengaduan Sarana Sekolah</a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav ms-auto">
                     <a class="nav-link text-white" href="/admin/dashboard">Dashboard</a>
@@ -42,37 +42,37 @@
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="ps-4">NIS</th>
-                                <th>Kelas</th>
-                                <th>Tanggal Terdaftar</th>
-                                <th class="text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($siswas as $s)
-                            <tr>
-                                <td class="ps-4 fw-bold text-dark">{{ $s->nis }}</td>
-                                <td>{{ $s->kelas }}</td>
-                                <td>{{ $s->created_at->format('d M Y') }}</td>
-                                <td class="text-center">
-                                    <form action="/admin/siswa/delete/{{ $s->nis }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus siswa dengan NIS {{ $s->nis }}?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash-fill me-1"></i> Hapus
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="4" class="text-center p-5 text-muted">Belum ada data siswa terdaftar.</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+    <thead class="table-light">
+        <tr>
+            <th class="ps-4">NIS</th>
+            <th>Nama Siswa</th> <th>Kelas</th>
+            <th>Tanggal Terdaftar</th>
+            <th class="text-center">Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($siswas as $s)
+        <tr>
+            <td class="ps-4 fw-bold text-dark">{{ $s->nis }}</td>
+            <td>{{ $s->nama }}</td> <td>{{ $s->kelas }}</td>
+            <td>{{ $s->created_at->format('d M Y') }}</td>
+            <td class="text-center">
+                <form action="/admin/siswa/delete/{{ $s->nis }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus siswa dengan NIS {{ $s->nis }}?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash-fill me-1"></i> Hapus
+                    </button>
+                </form>
+            </td>
+        </tr>
+        @empty
+        <tr>
+            <td colspan="5" class="text-center p-5 text-muted">Belum ada data siswa terdaftar.</td>
+        </tr>
+        @endforelse
+    </tbody>
+</table>
                 </div>
             </div>
         </div>
@@ -89,20 +89,26 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">NIS (Nomor Induk Siswa)</label>
-                        <input type="number" name="nis" class="form-control" placeholder="Contoh: 67890" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Kelas</label>
-                        <input type="text" name="kelas" class="form-control" placeholder="Contoh: XII RPL 1" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Password Akun</label>
-                        <input type="password" name="password" class="form-control" placeholder="Minimal 6 karakter" required>
-                        <div class="form-text">Password ini digunakan siswa untuk login.</div>
-                    </div>
-                </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold">NIS (Nomor Induk Siswa)</label>
+        <input type="number" name="nis" class="form-control" placeholder="Contoh: 67890" required>
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label fw-bold">Nama Lengkap</label>
+        <input type="text" name="nama" class="form-control" placeholder="Contoh: Ahmad Budi" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Kelas</label>
+        <input type="text" name="kelas" class="form-control" placeholder="Contoh: XII RPL 1" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold">Password Akun</label>
+        <input type="password" name="password" class="form-control" placeholder="Minimal 6 karakter" required>
+        <div class="form-text">Password ini digunakan siswa untuk login.</div>
+    </div>
+</div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
